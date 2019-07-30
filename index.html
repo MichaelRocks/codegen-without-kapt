@@ -4,13 +4,13 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Litho на практике</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/theme/white.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="lib/css/idea.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -24,8 +24,621 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section class="centered">
+					<div class="title-container">
+						<h1 class="title-container-title">Кодогенерация без kapt</h1>
+						<h2 class="title-container-subtitle" style="color: #9697a1;">Михаил Розумянский, Joom</h2>
+					</div>
+				</section>
+				<section>
+					<h1>Начало</h1>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">2014 год</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Новый проект</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Kotlin M8</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h1>Выбор DI</h1>
+					<h5 class="fragment" style="margin-top: -20px; color: #9697a1;" data-fragment-index="0">Есть два стула</h5>
+					<img class="fragment plain" style="margin: unset; width: 450px" src="graphics/di-choice.svg" data-fragment-index="0" />	
+				</section>
+				<section>
+					<h1>Lightsaber</h1>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Вдохновлён Guice</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Compile time</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Модифицирует байткод</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Lightsaber</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Компонент</h5>
+						</div>
+					</div>
+					<pre style="font-size: 15px"><code class="hljs kotlin highlight-code" data-noescape>
+@Component
+private class MainComponent {
+  @Provides
+  private fun provideMainModule() = MainModule()
+
+  @Module
+  private class MainModule {
+    @Provides
+    private fun provideMainRepository(impl: MainRepositoryImpl): MainRepository = impl
+  }
+}
+					</code></pre>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Lightsaber</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 18px"><code class="hljs kotlin highlight-code" data-noescape>
+class MainActivity : BaseActivity() {
+  private val repository: MainRepository = notNull()
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    val injector = lightsaber.createInjector(MainComponent())
+    injector.injectMembers(this)
+  }
+}
+					</code></pre>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Lightsaber</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Изнутри</h5>
+						</div>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">ObjectWeb ASM</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Transform API</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h1>ASM</h1>
+					<img class="plain" style="margin: unset; width: 700px" src="graphics/asm.svg" />
+				</section>
+				<section>
+					<h1>Transform API</h1>
+					<img class="plain" style="margin: unset; width: 900px" src="graphics/transform-api.svg" />
+				</section>
+				<section>
+					<div>
+						<h1>Sento</h1>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Как ButterKnife</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Только без APT</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Sento</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 15px"><code class="hljs kotlin highlight-code" data-noescape>
+class MainActivity : BaseActivity() {
+  private @Bind(R.id.label) val label: TextView = notNull()
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.main_activity)
+    Sento.bind(this, this)
+  }
+
+  @OnTextChanged(R.id.input)
+  private fun onFirstNameChanged(text: CharSequence) {
+    label.text = getValidationMessage(text)
+  }
+}
+					</code></pre>
+				</section>
+				<section>
+					<div>
+						<h1>Smuggler</h1>
+					</div>
+
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Генерация Parcelable</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Для Kotlin</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Опять без APT</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Smuggler</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
+sealed class Selection : AutoParcelable {
+  data class Item(val id: String) : Selection()
+  object None : Selection()
+}
+					</code></pre>
+				</section>
+				<section>
+					<div>
+						<h1>Grip</h1>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Часть Lightsaber</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">DOM для классов</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Поисковые запросы</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Grip</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
+grip select methods from inputs where
+  (isConstructor() and annotatedWith(Types.INJECT_TYPE))
+					</code></pre>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Grip</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
+grip 
+  .select(methods)
+  .from(inputs)
+  .where(isConstructor() and annotatedWith(Types.INJECT_TYPE))
+					</code></pre>
+				</section>
+				<section>
+					<div>
+						<h1>Paranoid</h1>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Обфускатор строк</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Демо проект</p>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h1>kapt</h1>
+					<p style="font-size: 200%; margin-top: 100px; margin-left: 0.8em;">APT ❤️ Kotlin</p>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>kapt</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Изнутри</h5>
+						</div>
+					</div>
+					<img class="plain" style="margin: unset; width: 900px" src="graphics/kapt1.svg" />
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>DataBinding</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Ожидание</h5>
+						</div>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Удобство</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Надёжность</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Стабильность</p>
+						</div>
+					</div>
+				</section>
+				<section data-background="graphics/databinding.jpg">
+					<!-- TODO: Добавить копирайт -->
+					<!-- <a href="http://vasya-lozhkin.ru">© Вася Ложкин</a> -->
+				</section>
+				<section data-background="graphics/databinding-reality.jpg">
+					<!-- TODO: Добавить копирайт -->
+					<!-- <a href="http://vasya-lozhkin.ru">© Вася Ложкин</a> -->
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>VectorDrawableCompat</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">ViewDataBinding.java</h5>
+						</div>
+					</div>
+					<pre style="font-size: 15px"><code class="hljs kotlin highlight-code" data-noescape>
+protected static Drawable getDrawableFromResource(View view, int resourceId) {
+  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    return view.getContext().getDrawable(resourceId);
+  } else {
+    return view.getResources().getDrawable(resourceId);
+  }
+}
+					</code></pre>
+				</section>
+				<section data-background="graphics/databindingcompat.png">
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>DataBindingCompat</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">ViewDataBinding.java</h5>
+						</div>
+					</div>
+					<pre style="font-size: 15px"><code class="hljs kotlin highlight-code" data-noescape>
+protected static Drawable getDrawableFromResource(View view, int resourceId) {
+  return AppCompatResources.getDrawable(view.getContext(), resourceId));
+}
+					</code></pre>
+				</section>
+				<section>
+					<h1>kapt2</h1>
+					<img src="graphics/kapt2.gif" width="480" height="268" frameBorder="0" style="margin-top: -10px;" />
+					<h5 style="margin-top: -10px; color: #9697a1;">(спешит на помощь)</h5>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>kapt2</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Что случилось?</h5>
+						</div>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Обёртки для PSI</p>
+						</div>
+						<div class="fragment bubble" style="background: #ff7676;">
+							<p style="font-size: 80%; line-height: 1.1;">Медленно и тяжело</p>
+						</div>
+						<div class="fragment bubble" style="background: #ff7676;">
+							<p style="font-size: 80%; line-height: 1.1;">Что с Java?</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h1>kapt3</h1>
+					<p style="font-size: 140%; margin-top: 120px;">
+						Как <strong>kapt1</strong>, но <strong>лучше</strong>
+					</p>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>kapt3</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Изнутри</h5>
+						</div>
+					</div>
+					<img class="plain" style="margin: unset; width: 900px" src="graphics/kapt3.svg" />
+				</section>
+				<section>
+					<h1>Colonist</h1>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Регистрация "плагинов"</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Compile time</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Слабая связность</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h1>Colonist</h1>
+					<img class="plain" style="margin: unset; width: 700px" src="graphics/colonist.svg" />
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Colonist</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Пример API</h5>
+						</div>
+					</div>
+					<pre style="font-size: 18px"><code class="hljs kotlin highlight-code" data-noescape>
+@Colony
+@SelectSettlersBySuperType(Feature::class)
+@ProduceSettlersAsClasses
+@AcceptSettlersViaCallback
+annotation class FeatureColony
+					</code></pre>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Colonist</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 15px"><code class="hljs kotlin highlight-code" data-noescape>
+class MyFeature : Feature { /* ... */ }
+
+@FeatureColony
+private class FeatureManager {
+  init {
+    Colonist.settle(this)
+  }
+
+  @OnAcceptSettler(colonyAnnotation = FeatureColony::class)
+  fun onAcceptFeature(featureClass: Class&lt;out Feature&gt;) {
+    // ...
+  }
+}
+					</code></pre>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Leak Detector</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Проверяет, что</h5>
+						</div>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;"><span class="code-strong">Closeable</span> объекты</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">были <strong>закрыты</strong></p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">до&nbsp;<strong>сборки мусора</strong></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Leak Detector</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Изнутри</h5>
+						</div>
+					</div>
+					<img class="plain" style="margin: unset; width: 500px" src="graphics/leak-detector.svg" />
+				</section>
+
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Прощай kapt</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Предпосылки</h5>
+						</div>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Только DataBinding</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;"><span class="code">BR</span>&nbsp;не используется</p>
+						</div>
+						<div class="fragment bubble" style="background: #ff7676;">
+							<p style="font-size: 80%; line-height: 1.1;">Медленная сборка</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>DataBinding</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Изнутри</h5>
+						</div>
+					</div>
+					<ul>
+						<li class="fragment" style="line-height: 1.5;">
+							В коде используются <span class="code-strong">*Binding</span>
+						</li>
+						<li class="fragment" style="line-height: 1.5;">
+							<strong>*Binding.java</strong> генерируются до компиляции
+						</li>
+						<li class="fragment" style="line-height: 1.5;">
+							<strong>*BindingImpl.java</strong> генерируются APT
+							<p style="font-size: 75%; color: #9697a1; margin-top: -0.1em;">А также <span class="code-strong">BR</span> и <span class="code-strong">DataBindingComponent</span></p>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>DataBinding</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Идея</h5>
+						</div>
+					</div>
+					<div class="bubble-container" style="height: 200px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Отключить процессор DataBinding</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Собрать проект</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Запустить процессор DataBinding</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>DataBinding</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Итоги</h5>
+						</div>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 70%; line-height: 1.1;"><strong>-20%</strong> от времени сборки</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 70%; line-height: 1.1;">Нет неожиданных деградаций</p>
+						</div>
+						<div class="fragment bubble" style="background: #ff7676;">
+							<p style="font-size: 70%; line-height: 1.1;">Решение не универсальное</p>
+						</div>
+					</div>
+				</section>
+				
+				<section class="centered">
+					<h1>Что дальше?</h1>
+				</section>
+
+				<section class="centered">
+					<div style="display: inline-block; font-size: 110%;">
+						<p><strong>Compose</strong> вытеснит <strong>DataBinding</strong></p>
+						<p style="font-size: 80%; text-align: left; margin-top: -0.4em; color: #9697a1;">И многое поменяет</p>
+					</div>
+				</section>
+
+				<section class="centered">
+					<div style="display: inline-block; font-size: 110%;">
+						<p><strong>kapt</strong> не будет <strong>first-class citizen</strong></p>
+						<p style="font-size: 80%; text-align: left; margin-top: -0.4em; color: #9697a1;">А <strong>Kotlin</strong> будет</p>
+					</div>
+				</section>
+
+				<section class="centered">
+					<div style="display: inline-block; font-size: 110%;">
+						<p><strong>Kotlin-плагины</strong> заменят <strong>Transform API</strong></p>
+						<p style="font-size: 80%; text-align: left; margin-top: -0.4em; color: #9697a1;">И, возможно, <strong>kapt</strong></p>
+					</div>
+				</section>
+
+				<section>
+					<h1>Полезные ссылки</h1>
+					<ul style="font-size: 50%;">
+						<li>
+							ASM
+							<br />
+							<a href="https://asm.ow2.io">https://asm.ow2.io</a>
+						</li>
+						<li>
+							Transform API
+							<a href="http://google.github.io/android-gradle-dsl/javadoc/current">http://google.github.io/android-gradle-dsl/javadoc/current</a>
+						</li>
+						<li>
+							kapt: Annotation Processing for Kotlin
+							<br />
+							<a href="https://blog.jetbrains.com/kotlin/2015/05/kapt-annotation-processing-for-kotlin">https://blog.jetbrains.com/kotlin/2015/05/kapt-annotation-processing-for-kotlin</a>
+						</li>
+						<li>
+							Implement Annotation Processing API (JSR 269) natively in Kotlin
+							<br />
+							<a href="https://youtrack.jetbrains.com/issue/KT-13499">https://youtrack.jetbrains.com/issue/KT-13499</a>
+						</li>
+						<li>
+							Pushing the limits of Kotlin annotation processing
+							<br />
+							<a href="https://medium.com/@workingkills/pushing-the-limits-of-kotlin-annotation-processing-8611027b6711">https://medium.com/@workingkills/pushing-the-limits-of-kotlin-annotation-processing-8611027b6711</a>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h1>Не очень полезные ссылки</h1>
+					<ul style="font-size: 50%;">
+						<li>
+							Lightsaber
+							<br />
+							<a href="https://github.com/MichaelRocks/lightsaber">https://github.com/MichaelRocks/lightsaber</a>
+						</li>
+						<li>
+							Sento
+							<br />
+							<a href="https://github.com/nsk-mironov/sento">https://github.com/nsk-mironov/sento</a>
+						</li>
+						<li>
+							Smuggler
+							<br />
+							<a href="https://github.com/joomcode/smuggler">https://github.com/joomcode/smuggler</a>
+						</li>
+						<li>
+							Grip
+							<br />
+							<a href="https://github.com/MichaelRocks/grip">https://github.com/MichaelRocks/grip</a>
+						</li>
+						<li>
+							Paranoid
+							<br />
+							<a href="https://github.com/MichaelRocks/paranoid">https://github.com/MichaelRocks/paranoid</a>
+						</li>
+						<li>
+							DataBindingCompat
+							<br />
+							<a href="https://github.com/MichaelRocks/DataBindingCompat">https://github.com/MichaelRocks/DataBindingCompat</a>
+						</li>
+						<li>
+							Colonist
+							<br />
+							<a href="https://github.com/MichaelRocks/colonist">https://github.com/MichaelRocks/colonist</a>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Спасибо за внимание!</h1>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="bubble" style="background: transparent;">
+							<p style="font-size: 80%; line-height: 1.1;">
+								<img class="plain" style="width: 100px; height: 100px;" src="graphics/github.svg" />
+								<br />
+								<a style="color: #2d2e44" href="https://github.com/MichaelRocks">MichaelRocks</a>
+							</p>
+						</div>
+						<div class="bubble" style="background: transparent;">
+							<p style="font-size: 80%; line-height: 1.1;">
+								<img class="plain" style="width: 100px; height: 100px;" src="graphics/telegram.svg" />
+								<br />
+								<a style="color: #2d2e44" href="https://t.me/michaelrocks">@michaelrocks</a>
+							</p>
+						</div>
+					</div>
+				</section>
 			</div>
 		</div>
 
@@ -37,6 +650,16 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				width: 960,
+				height: 540,
+				controls: true,
+				progress: true,
+				history: true,
+				center: false,
+				slideNumber: 'h/v',
+				backgroundTransition: 'zoom',
+				pdfMaxPagesPerSlide: 1,
+
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
