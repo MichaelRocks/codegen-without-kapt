@@ -1506,3 +1506,6 @@ code.highlight-code .fragment {
     opacity: 1.0; }
   code.highlight-code .fragment.current-fragment {
     font-weight: 500; }
+
+code.hljs {
+  background: unset; }

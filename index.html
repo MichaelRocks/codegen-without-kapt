@@ -34,13 +34,13 @@
 					<h1>Начало</h1>
 					<div class="bubble-container" style="height: 160px;">
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">2014 год</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>2014</strong> год</p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Новый проект</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Новый</strong> проект</p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Kotlin M8</p>
+							<p style="font-size: 80%; line-height: 1.1;">Kotlin <strong>M8</strong></p>
 						</div>
 					</div>
 				</section>
@@ -53,13 +53,13 @@
 					<h1>Lightsaber</h1>
 					<div class="bubble-container" style="height: 160px;">
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Вдохновлён Guice</p>
+							<p style="font-size: 80%; line-height: 1.1;">Вдохновлён <strong>Guice</strong></p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Compile time</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Compile</strong> time</p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Модифицирует байткод</p>
+							<p style="font-size: 80%; line-height: 1.1;">Меняет <strong>байткод</strong></p>
 						</div>
 					</div>
 				</section>
@@ -71,17 +71,17 @@
 						</div>
 					</div>
 					<pre style="font-size: 15px"><code class="hljs kotlin highlight-code" data-noescape>
-@Component
-private class MainComponent {
-  @Provides
-  private fun provideMainModule() = MainModule()
+<span class="fragment" data-fragment-index="2">@Component
+private class MainComponent {</span>
+  <span class="fragment" data-fragment-index="3">@Provides
+  private fun provideMainModule() = MainModule()</span>
 
-  @Module
-  private class MainModule {
-    @Provides
-    private fun provideMainRepository(impl: MainRepositoryImpl): MainRepository = impl
-  }
-}
+  <span class="fragment" data-fragment-index="0">@Module
+  private class MainModule {</span>
+    <span class="fragment" data-fragment-index="1">@Provides
+    private fun provideMainRepository(impl: MainRepositoryImpl): MainRepository = impl</span>
+  <span class="fragment" data-fragment-index="0">}</span>
+<span class="fragment" data-fragment-index="2">}</span>
 					</code></pre>
 				</section>
 				<section>
@@ -92,15 +92,15 @@ private class MainComponent {
 						</div>
 					</div>
 					<pre style="font-size: 18px"><code class="hljs kotlin highlight-code" data-noescape>
-class MainActivity : BaseActivity() {
-  private val repository: MainRepository = notNull()
+<span class="unimportant">class MainActivity : BaseActivity() {</span>
+  <span class="fragment" data-fragment-index="0">private val repository: MainRepository = notNull()</span>
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    val injector = lightsaber.createInjector(MainComponent())
-    injector.injectMembers(this)
-  }
-}
+  <span class="unimportant">override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)</span>
+    <span class="fragment" data-fragment-index="1">val injector = lightsaber.createInjector(MainComponent())</span>
+    <span class="fragment" data-fragment-index="2">injector.injectMembers(this)</span>
+  <span class="unimportant">}</span>
+<span class="unimportant">}</span>
 					</code></pre>
 				</section>
 				<section>
@@ -112,10 +112,10 @@ class MainActivity : BaseActivity() {
 					</div>
 					<div class="bubble-container" style="height: 160px;">
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">ObjectWeb ASM</p>
+							<p style="font-size: 80%; line-height: 1.1;">ObjectWeb <strong>ASM</strong></p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Transform API</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Transform</strong> API</p>
 						</div>
 					</div>
 				</section>
@@ -127,16 +127,61 @@ class MainActivity : BaseActivity() {
 					<h1>Transform API</h1>
 					<img class="plain" style="margin: unset; width: 900px" src="graphics/transform-api.svg" />
 				</section>
+				
+				<section data-background="graphics/kapt.jpg">
+				</section>
+				<section>
+					<h1>kapt</h1>
+					<p style="font-size: 200%; margin-top: 100px; margin-left: -0.8em;"><strong>K</strong>otlin ❤️ <strong>APT</strong></p>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>kapt</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Возможные реализации</h5>
+						</div>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Своя реализация</strong> JSR 269</p>
+							<h5 style="position: absolute; text-align: center; bottom: -2em; width: 100%; color: #9697a1; font-size: 70%; font-weight: 400;">kapt<strong>2</strong></h5>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Компиляция в <strong>.java стабы</strong></p>
+							<h5 style="position: absolute; text-align: center; bottom: -2em; width: 100%; color: #9697a1; font-size: 70%; font-weight: 400;">kapt<strong>3</strong></h5>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Компиляция в <strong>.class стабы</strong></p>
+							<h5 style="position: absolute; text-align: center; bottom: -2em; width: 100%; color: #9697a1; font-size: 70%; font-weight: 400;">kapt<strong>1</strong></h5>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>kapt</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Изнутри</h5>
+						</div>
+					</div>
+					<img class="plain" style="margin: unset; width: 900px" src="graphics/kapt1.svg" />
+				</section>
+				<section class="centered">
+					<h1 style="font-size: 300%;">¯\_(ツ)_/¯</h1>
+				</section>
+
 				<section>
 					<div>
 						<h1>Sento</h1>
 					</div>
 					<div class="bubble-container" style="height: 160px;">
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Как ButterKnife</p>
+							<p style="font-size: 80%; line-height: 1.1;">Как <strong>ButterKnife</strong></p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Только без APT</p>
+							<p style="font-size: 80%; line-height: 1.1;">Только <strong>без APT</strong></p>
+						</div>
+						<div class="fragment bubble" style="background: #ff7676;">
+							<p style="font-size: 80%; line-height: 1.1;">Больше <strong>не используется</strong></p>
 						</div>
 					</div>
 				</section>
@@ -148,121 +193,25 @@ class MainActivity : BaseActivity() {
 						</div>
 					</div>
 					<pre style="font-size: 15px"><code class="hljs kotlin highlight-code" data-noescape>
-class MainActivity : BaseActivity() {
-  private @Bind(R.id.label) val label: TextView = notNull()
+<span class="unimportant">class MainActivity : BaseActivity() {</span>
+  <span class="fragment" data-fragment-index="0">private @Bind(R.id.label) val label: TextView = notNull()</span>
 
-  override fun onCreate(savedInstanceState: Bundle?) {
+  <span class="unimportant">override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.main_activity)
-    Sento.bind(this, this)
-  }
+    setContentView(R.layout.main_activity)</span>
+    <span class="fragment" data-fragment-index="2">Sento.bind(this, this)</span>
+  <span class="unimportant">}</span>
 
-  @OnTextChanged(R.id.input)
-  private fun onFirstNameChanged(text: CharSequence) {
+  <span class="fragment" data-fragment-index="1">@OnTextChanged(R.id.input)
+  private fun onInputChanged(text: CharSequence) {
     label.text = getValidationMessage(text)
-  }
-}
+  }</span>
+<span class="unimportant">}</span>
 					</code></pre>
-				</section>
-				<section>
-					<div>
-						<h1>Smuggler</h1>
-					</div>
-
-					<div class="bubble-container" style="height: 160px;">
-						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Генерация Parcelable</p>
-						</div>
-						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Для Kotlin</p>
-						</div>
-						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Опять без APT</p>
-						</div>
-					</div>
-				</section>
-				<section>
-					<div>
-						<div style="display: inline-block;">
-							<h1>Smuggler</h1>
-							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
-						</div>
-					</div>
-					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
-sealed class Selection : AutoParcelable {
-  data class Item(val id: String) : Selection()
-  object None : Selection()
-}
-					</code></pre>
-				</section>
-				<section>
-					<div>
-						<h1>Grip</h1>
-					</div>
-					<div class="bubble-container" style="height: 160px;">
-						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Часть Lightsaber</p>
-						</div>
-						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">DOM для классов</p>
-						</div>
-						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Поисковые запросы</p>
-						</div>
-					</div>
-				</section>
-				<section>
-					<div>
-						<div style="display: inline-block;">
-							<h1>Grip</h1>
-							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
-						</div>
-					</div>
-					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
-grip select methods from inputs where
-  (isConstructor() and annotatedWith(Types.INJECT_TYPE))
-					</code></pre>
-				</section>
-				<section>
-					<div>
-						<div style="display: inline-block;">
-							<h1>Grip</h1>
-							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
-						</div>
-					</div>
-					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
-grip 
-  .select(methods)
-  .from(inputs)
-  .where(isConstructor() and annotatedWith(Types.INJECT_TYPE))
-					</code></pre>
-				</section>
-				<section>
-					<div>
-						<h1>Paranoid</h1>
-					</div>
-					<div class="bubble-container" style="height: 160px;">
-						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Обфускатор строк</p>
-						</div>
-						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Демо проект</p>
-						</div>
-					</div>
 				</section>
 
-				<section>
-					<h1>kapt</h1>
-					<p style="font-size: 200%; margin-top: 100px; margin-left: 0.8em;">APT ❤️ Kotlin</p>
-				</section>
-				<section>
-					<div>
-						<div style="display: inline-block;">
-							<h1>kapt</h1>
-							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Изнутри</h5>
-						</div>
-					</div>
-					<img class="plain" style="margin: unset; width: 900px" src="graphics/kapt1.svg" />
+				<section class="centered">
+					<h1>Спустя некоторое время</h1>
 				</section>
 				<section>
 					<div>
@@ -323,10 +272,122 @@ protected static Drawable getDrawableFromResource(View view, int resourceId) {
 }
 					</code></pre>
 				</section>
+
+				<section>
+					<div>
+						<h1>Smuggler</h1>
+					</div>
+
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Генерация <strong>Parcelable</strong></p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Для <strong>Kotlin</strong></p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Опять <strong>без APT</strong></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Smuggler</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
+<span class="unimportant">sealed class Selection : </span>AutoParcelable<span class="unimportant"> {
+  data class Item(val id: String) : Selection()
+  object None : Selection()
+}</span>
+					</code></pre>
+				</section>
+
+				<section class="centered">
+					<h1>Много схожего кода</h1>
+				</section>
+				<section>
+					<div>
+						<h1>Grip</h1>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Часть <strong>Lightsaber</strong></p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;"><strong>DOM</strong> для классов</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;">Поисковые <strong>запросы</strong></p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Grip</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
+<span class="fragment" data-fragment-index="0">grip</span> <span class="fragment" data-fragment-index="1">select methods</span> <span class="fragment" data-fragment-index="2">from inputs</span> <span class="fragment" data-fragment-index="3">where
+  (</span><span class="fragment" data-fragment-index="4">isConstructor() and annotatedWith(Types.INJECT_TYPE)</span><span class="fragment" data-fragment-index="3">)</span>
+					</code></pre>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Grip</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
+<span class="fragment" data-fragment-index="0">grip</span>
+  <span class="fragment" data-fragment-index="1">.select(methods)</span>
+  <span class="fragment" data-fragment-index="2">.from(inputs)</span>
+  <span class="fragment" data-fragment-index="3">.where(</span><span class="fragment" data-fragment-index="4">isConstructor() and annotatedWith(Types.INJECT_TYPE)</span><span class="fragment" data-fragment-index="3">)</span>
+					</code></pre>
+				</section>
+
+				<section>
+					<div>
+						<h1>Paranoid</h1>
+					</div>
+					<div class="bubble-container" style="height: 160px;">
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Обфускатор</strong> строк</p>
+						</div>
+						<div class="fragment bubble">
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Демо</strong> проект</p>
+						</div>
+					</div>
+				</section>
+				<section>
+					<div>
+						<div style="display: inline-block;">
+							<h1>Paranoid</h1>
+							<h5 style="text-align: left; margin-top: -20px; color: #9697a1;">Использование</h5>
+						</div>
+					</div>
+					<pre style="font-size: 20px"><code class="hljs kotlin highlight-code" data-noescape>
+@Obfuscate
+<span class="unimportant">object TopSecretStrings {
+  const val TOP_SECRET_STRING = "42"
+}</span>
+					</code></pre>
+				</section>
+
+				<section class="centered">
+					<h1>А тем временем</h1>
+				</section>
 				<section>
 					<h1>kapt2</h1>
-					<img src="graphics/kapt2.gif" width="480" height="268" frameBorder="0" style="margin-top: -10px;" />
-					<h5 style="margin-top: -10px; color: #9697a1;">(спешит на помощь)</h5>
+					<div class="fragment">
+						<img src="graphics/kapt2.gif" width="480" height="268" frameBorder="0" style="margin-top: -10px;" />
+						<h5 style="margin-top: -10px; color: #9697a1;">(спешит на помощь)</h5>
+					</div>
 				</section>
 				<section>
 					<div>
@@ -337,13 +398,13 @@ protected static Drawable getDrawableFromResource(View view, int resourceId) {
 					</div>
 					<div class="bubble-container" style="height: 160px;">
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Обёртки для PSI</p>
+							<p style="font-size: 80%; line-height: 1.1;">Обёртки для <strong>PSI</strong></p>
 						</div>
 						<div class="fragment bubble" style="background: #ff7676;">
-							<p style="font-size: 80%; line-height: 1.1;">Медленно и тяжело</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Медленно</strong> и тяжело</p>
 						</div>
 						<div class="fragment bubble" style="background: #ff7676;">
-							<p style="font-size: 80%; line-height: 1.1;">Что с Java?</p>
+							<p style="font-size: 80%; line-height: 1.1;">Что с <strong>Java</strong>?</p>
 						</div>
 					</div>
 				</section>
@@ -362,17 +423,20 @@ protected static Drawable getDrawableFromResource(View view, int resourceId) {
 					</div>
 					<img class="plain" style="margin: unset; width: 900px" src="graphics/kapt3.svg" />
 				</section>
+
+				<section data-background="graphics/joom.jpeg">
+				</section>
 				<section>
 					<h1>Colonist</h1>
 					<div class="bubble-container" style="height: 160px;">
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Регистрация "плагинов"</p>
+							<p style="font-size: 80%; line-height: 1.1;">Регистрация <strong>плагинов</strong></p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Compile time</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Compile</strong> time</p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Слабая связность</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Слабая</strong> связность</p>
 						</div>
 					</div>
 				</section>
@@ -388,11 +452,11 @@ protected static Drawable getDrawableFromResource(View view, int resourceId) {
 						</div>
 					</div>
 					<pre style="font-size: 18px"><code class="hljs kotlin highlight-code" data-noescape>
-@Colony
-@SelectSettlersBySuperType(Feature::class)
-@ProduceSettlersAsClasses
-@AcceptSettlersViaCallback
-annotation class FeatureColony
+<span class="fragment" data-fragment-index="1">@Colony</span>
+<span class="fragment" data-fragment-index="2">@SelectSettlersBySuperType(Feature::class)</span>
+<span class="fragment" data-fragment-index="3">@ProduceSettlersAsClasses</span>
+<span class="fragment" data-fragment-index="4">@AcceptSettlersViaCallback</span>
+<span class="fragment" data-fragment-index="0">annotation class FeatureColony</span>
 					</code></pre>
 				</section>
 				<section>
@@ -403,19 +467,19 @@ annotation class FeatureColony
 						</div>
 					</div>
 					<pre style="font-size: 15px"><code class="hljs kotlin highlight-code" data-noescape>
-class MyFeature : Feature { /* ... */ }
+<span class="fragment" data-fragment-index="0">class MyFeature : Feature { /* ... */ }</span>
 
-@FeatureColony
-private class FeatureManager {
-  init {
+<span class="fragment" data-fragment-index="2">@FeatureColony</span>
+<span class="fragment" data-fragment-index="1">private class FeatureManager {</span>
+  <span class="fragment" data-fragment-index="4">init {
     Colonist.settle(this)
-  }
+  }</span>
 
-  @OnAcceptSettler(colonyAnnotation = FeatureColony::class)
+  <span class="fragment" data-fragment-index="3">@OnAcceptSettler(colonyAnnotation = FeatureColony::class)
   fun onAcceptFeature(featureClass: Class&lt;out Feature&gt;) {
     // ...
-  }
-}
+  }</span>
+<span class="fragment" data-fragment-index="1">}</span>
 					</code></pre>
 				</section>
 				<section>
@@ -456,13 +520,13 @@ private class FeatureManager {
 					</div>
 					<div class="bubble-container" style="height: 160px;">
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Только DataBinding</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Только</strong> DataBinding</p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;"><span class="code">BR</span>&nbsp;не используется</p>
+							<p style="font-size: 80%; line-height: 1.1;"><span class="code">BR</span>&nbsp;<strong>не используется</strong></p>
 						</div>
 						<div class="fragment bubble" style="background: #ff7676;">
-							<p style="font-size: 80%; line-height: 1.1;">Медленная сборка</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Медленная</strong> сборка</p>
 						</div>
 					</div>
 				</section>
@@ -495,13 +559,13 @@ private class FeatureManager {
 					</div>
 					<div class="bubble-container" style="height: 200px;">
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Отключить процессор DataBinding</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Отключить</strong> процессор DataBinding</p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Собрать проект</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Собрать</strong> проект</p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 80%; line-height: 1.1;">Запустить процессор DataBinding</p>
+							<p style="font-size: 80%; line-height: 1.1;"><strong>Запустить</strong> процессор DataBinding</p>
 						</div>
 					</div>
 				</section>
@@ -517,10 +581,10 @@ private class FeatureManager {
 							<p style="font-size: 70%; line-height: 1.1;"><strong>-20%</strong> от времени сборки</p>
 						</div>
 						<div class="fragment bubble">
-							<p style="font-size: 70%; line-height: 1.1;">Нет неожиданных деградаций</p>
+							<p style="font-size: 70%; line-height: 1.1;">Нет неожиданных <strong>деградаций</strong></p>
 						</div>
 						<div class="fragment bubble" style="background: #ff7676;">
-							<p style="font-size: 70%; line-height: 1.1;">Решение не универсальное</p>
+							<p style="font-size: 70%; line-height: 1.1;">Решение <strong>не универсальное</strong></p>
 						</div>
 					</div>
 				</section>
@@ -532,7 +596,7 @@ private class FeatureManager {
 				<section class="centered">
 					<div style="display: inline-block; font-size: 110%;">
 						<p><strong>Compose</strong> вытеснит <strong>DataBinding</strong></p>
-						<p style="font-size: 80%; text-align: left; margin-top: -0.4em; color: #9697a1;">И многое поменяет</p>
+						<p style="font-size: 80%; text-align: left; margin-top: -0.4em; color: #9697a1;">И <strong>многое</strong> изменит</p>
 					</div>
 				</section>
 
@@ -551,6 +615,29 @@ private class FeatureManager {
 				</section>
 
 				<section>
+					<h1>Планы</h1>
+					<div class="bubble-container" style="height: 140px;">
+						<div class="fragment bubble" data-fragment-index="0">
+							<p style="font-size: 70%; line-height: 1.1;">Объединение трансформаций</p>
+						</div>
+						<div class="fragment bubble" data-fragment-index="2">
+							<p style="font-size: 70%; line-height: 1.1;">Парсинг диплинков</p>
+						</div>
+						<div class="fragment bubble" data-fragment-index="4">
+							<p style="font-size: 70%; line-height: 1.1;">Отправка аналитики</p>
+						</div>
+					</div>
+					<div class="bubble-container" style="height: 140px; margin-top: 20px;">
+						<div class="fragment bubble" data-fragment-index="1">
+							<p style="font-size: 70%; line-height: 1.1;">Сетевой клиент</p>
+						</div>
+						<div class="fragment bubble" data-fragment-index="3">
+							<p style="font-size: 70%; line-height: 1.1;">Патчи в проекте</p>
+						</div>
+					</div>
+				</section>
+
+				<section>
 					<h1>Полезные ссылки</h1>
 					<ul style="font-size: 50%;">
 						<li>
@@ -560,6 +647,7 @@ private class FeatureManager {
 						</li>
 						<li>
 							Transform API
+							<br />
 							<a href="http://google.github.io/android-gradle-dsl/javadoc/current">http://google.github.io/android-gradle-dsl/javadoc/current</a>
 						</li>
 						<li>
@@ -598,6 +686,11 @@ private class FeatureManager {
 							<a href="https://github.com/joomcode/smuggler">https://github.com/joomcode/smuggler</a>
 						</li>
 						<li>
+							DataBindingCompat
+							<br />
+							<a href="https://github.com/MichaelRocks/DataBindingCompat">https://github.com/MichaelRocks/DataBindingCompat</a>
+						</li>
+						<li>
 							Grip
 							<br />
 							<a href="https://github.com/MichaelRocks/grip">https://github.com/MichaelRocks/grip</a>
@@ -606,11 +699,6 @@ private class FeatureManager {
 							Paranoid
 							<br />
 							<a href="https://github.com/MichaelRocks/paranoid">https://github.com/MichaelRocks/paranoid</a>
-						</li>
-						<li>
-							DataBindingCompat
-							<br />
-							<a href="https://github.com/MichaelRocks/DataBindingCompat">https://github.com/MichaelRocks/DataBindingCompat</a>
 						</li>
 						<li>
 							Colonist
