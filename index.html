@@ -93,7 +93,7 @@ private class MainComponent {</span>
 					</div>
 					<pre style="font-size: 18px"><code class="hljs kotlin highlight-code" data-noescape>
 <span class="unimportant">class MainActivity : BaseActivity() {</span>
-  <span class="fragment" data-fragment-index="0">private val repository: MainRepository = notNull()</span>
+  <span class="fragment" data-fragment-index="0">@Inject private val repository: MainRepository = notNull()</span>
 
   <span class="unimportant">override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)</span>
@@ -194,7 +194,7 @@ private class MainComponent {</span>
 					</div>
 					<pre style="font-size: 15px"><code class="hljs kotlin highlight-code" data-noescape>
 <span class="unimportant">class MainActivity : BaseActivity() {</span>
-  <span class="fragment" data-fragment-index="0">private @Bind(R.id.label) val label: TextView = notNull()</span>
+  <span class="fragment" data-fragment-index="0">@Bind(R.id.label) private val label: TextView = notNull()</span>
 
   <span class="unimportant">override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
